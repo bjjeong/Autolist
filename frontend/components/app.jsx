@@ -8,6 +8,7 @@ const App = ({ children }) => (
     <div>
       <Switch>
         <Route path="/" component={ Home } />
+        {/* <Route path="/results" component={  } /> */}
       </Switch>
     </div>
   </div>

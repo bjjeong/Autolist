@@ -7,10 +7,3 @@ export const fetchVehicles = () => (
     url: 'https://qa878qmgjk.execute-api.us-east-1.amazonaws.com/dev?page=1',
   })
 );
-
-export const fetchVehicle = id => (
-  $.ajax({
-    method: 'GET',
-    url: `api/homes/${id}`,
-  })
-);
