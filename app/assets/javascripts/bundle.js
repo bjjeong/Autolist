@@ -86,6 +86,46 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./frontend/actions/vehicle_actions.js":
+/*!*********************************************!*\
+  !*** ./frontend/actions/vehicle_actions.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fetchVehicles = exports.receiveVehicles = exports.RECEIVE_VEHICLES = undefined;
+
+var _vehicle_api_util = __webpack_require__(/*! ../util/vehicle_api_util */ "./frontend/util/vehicle_api_util.js");
+
+var VehicleApiUtil = _interopRequireWildcard(_vehicle_api_util);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var RECEIVE_VEHICLES = exports.RECEIVE_VEHICLES = 'RECEIVE_VEHICLES';
+
+var receiveVehicles = exports.receiveVehicles = function receiveVehicles(vehicles) {
+  return {
+    type: RECEIVE_VEHICLES,
+    vehicles: vehicles.records
+  };
+};
+
+var fetchVehicles = exports.fetchVehicles = function fetchVehicles() {
+  return function (dispatch) {
+    return VehicleApiUtil.fetchVehicles().then(function (vehicles) {
+      return dispatch(receiveVehicles(vehicles));
+    });
+  };
+};
+
+/***/ }),
+
 /***/ "./frontend/autolist.jsx":
 /*!*******************************!*\
   !*** ./frontend/autolist.jsx ***!
@@ -112,6 +152,8 @@ var _store = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js
 
 var _store2 = _interopRequireDefault(_store);
 
+var _vehicle_actions = __webpack_require__(/*! ./actions/vehicle_actions */ "./frontend/actions/vehicle_actions.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -120,6 +162,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   window.dispatch = store.dispatch;
   window.getState = store.dispatch;
+
+  window.fetchVehicles = store.dispatch((0, _vehicle_actions.fetchVehicles)());
 
   _reactDom2.default.render(_react2.default.createElement(_root2.default, { store: store }), root);
 });
@@ -292,7 +336,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _lodash = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
-// import { RECEIVE_VEHICLES } from '../actions/vehicle_actions';
+var _vehicle_actions = __webpack_require__(/*! ../actions/vehicle_actions */ "./frontend/actions/vehicle_actions.js");
 
 var VehiclesReducer = function VehiclesReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -302,10 +346,8 @@ var VehiclesReducer = function VehiclesReducer() {
   Object.freeze(state);
 
   switch (action.type) {
-    // case RECEIVE_VEHICLES:
-    //   return merge(newState, {
-    //     [action.currentUser.user.id]: action.currentUser.user
-    //   });
+    case _vehicle_actions.RECEIVE_VEHICLES:
+      return action.vehicles;
     default:
       return state;
   }
@@ -351,6 +393,38 @@ var configureStore = function configureStore() {
 };
 
 exports.default = configureStore;
+
+/***/ }),
+
+/***/ "./frontend/util/vehicle_api_util.js":
+/*!*******************************************!*\
+  !*** ./frontend/util/vehicle_api_util.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var fetchVehicles = exports.fetchVehicles = function fetchVehicles() {
+  return $.ajax({
+    method: 'GET',
+    beforeSend: function beforeSend(request) {
+      request.setRequestHeader('x-api-key', 'cPvW4cvlX73o7WeloOBzeWfvrb4Kl12uw0olDp90');
+    },
+    url: 'https://qa878qmgjk.execute-api.us-east-1.amazonaws.com/dev?page=1'
+  });
+};
+
+var fetchVehicle = exports.fetchVehicle = function fetchVehicle(id) {
+  return $.ajax({
+    method: 'GET',
+    url: 'api/homes/' + id
+  });
+};
 
 /***/ }),
 

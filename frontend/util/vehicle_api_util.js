@@ -1,4 +1,4 @@
-export const fetchHomes = () => (
+export const fetchVehicles = () => (
   $.ajax({
     method: 'GET',
     beforeSend: function (request) {
@@ -8,7 +8,7 @@ export const fetchHomes = () => (
   })
 );
 
-export const fetchHome = id => (
+export const fetchVehicle = id => (
   $.ajax({
     method: 'GET',
     url: `api/homes/${id}`,
