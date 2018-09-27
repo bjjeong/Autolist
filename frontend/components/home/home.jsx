@@ -18,8 +18,10 @@ class Home extends Component {
     let maxPrice = this.state.maxPrice;
     let page = 1;
 
-    this.props.fetchVehicles(minPrice, maxPrice, page);
-    // this.props.history.push('/results');
+    this.props.history.push({
+      pathname: '/results',
+      search: `?page=${page}${minPrice ? `&price_min=${minPrice}` : ''}${maxPrice ? `&price_max=${maxPrice}` : ''}`,
+    });
   }
 
   update(field) {
@@ -29,7 +31,6 @@ class Home extends Component {
   }
 
   render() {
-
     return(
       <div className="home-page">
         <div className="form-container row z-depth-2">
