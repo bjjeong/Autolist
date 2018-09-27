@@ -37,4 +37,9 @@
 
 .result-index-item {
   width: 100%;
+  cursor: pointer;
+
+  span, p {
+    color: black;
+  }
 }

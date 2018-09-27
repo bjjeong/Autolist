@@ -1,13 +1,14 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 
 const ResultsIndexItem = (props) => {
   return(
-    <li className="result-index-item collection-item avatar">
+    <a onClick={() => props.history.push(`/vehicle/${props.vehicle.vin}`)}className="result-index-item collection-item avatar">
       <img src={props.vehicle.primary_photo_url} alt="" className="circle"/>
         <span className="title">{props.vehicle.year} {props.vehicle.make} {props.vehicle.model}</span>
         <p>{props.vehicle.price}</p>
-    </li>
+    </a>
   );
 };
 
-export default ResultsIndexItem;
+export default withRouter(ResultsIndexItem);

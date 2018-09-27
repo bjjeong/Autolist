@@ -152,8 +152,6 @@ var _store = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js
 
 var _store2 = _interopRequireDefault(_store);
 
-var _vehicle_actions = __webpack_require__(/*! ./actions/vehicle_actions */ "./frontend/actions/vehicle_actions.js");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -162,8 +160,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   window.dispatch = store.dispatch;
   window.getState = store.dispatch;
-
-  // window.fetchVehicles = store.dispatch(fetchVehicles(5, 80000, 1));
 
   _reactDom2.default.render(_react2.default.createElement(_root2.default, { store: store }), root);
 });
@@ -628,31 +624,35 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = __webpack_require__(/*! react-router */ "./node_modules/react-router/es/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ResultsIndexItem = function ResultsIndexItem(props) {
   return _react2.default.createElement(
-    "li",
-    { className: "result-index-item collection-item avatar" },
-    _react2.default.createElement("img", { src: props.vehicle.primary_photo_url, alt: "", className: "circle" }),
+    'a',
+    { onClick: function onClick() {
+        return props.history.push('/vehicle/' + props.vehicle.vin);
+      }, className: 'result-index-item collection-item avatar' },
+    _react2.default.createElement('img', { src: props.vehicle.primary_photo_url, alt: '', className: 'circle' }),
     _react2.default.createElement(
-      "span",
-      { className: "title" },
+      'span',
+      { className: 'title' },
       props.vehicle.year,
-      " ",
+      ' ',
       props.vehicle.make,
-      " ",
+      ' ',
       props.vehicle.model
     ),
     _react2.default.createElement(
-      "p",
+      'p',
       null,
       props.vehicle.price
     )
   );
 };
 
-exports.default = ResultsIndexItem;
+exports.default = (0, _reactRouter.withRouter)(ResultsIndexItem);
 
 /***/ }),
 
