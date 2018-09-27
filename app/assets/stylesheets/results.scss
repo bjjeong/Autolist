@@ -12,16 +12,27 @@
   justify-content: center;
   align-content: flex-start;
 
-  h3, ul {
+  .navigation, ul {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
   }
 
-  h3 {
-    height: 5%;
+  .navigation {
+    align-items: center;
+    align-content: center;
+
+    button {
+      width: 20%;
+    }
+    h3 {
+      width: 60%;
+      display: flex;
+      justify-content: center;
+    }
   }
+
 }
 
 .result-index-item {

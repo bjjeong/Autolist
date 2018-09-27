@@ -470,6 +470,8 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = __webpack_require__(/*! react-router */ "./node_modules/react-router/es/index.js");
+
 var _queryString = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
 
 var _queryString2 = _interopRequireDefault(_queryString);
@@ -494,9 +496,8 @@ var ResultsIndex = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (ResultsIndex.__proto__ || Object.getPrototypeOf(ResultsIndex)).call(this, props));
 
-    _this.state = {
-      page: 1
-    };
+    _this.nextPage = _this.nextPage.bind(_this);
+    _this.previousPage = _this.previousPage.bind(_this);
     return _this;
   }
 
@@ -511,6 +512,36 @@ var ResultsIndex = function (_Component) {
       this.props.fetchVehicles(price_min, price_max, page);
     }
   }, {
+    key: 'nextPage',
+    value: function nextPage() {
+      var _queryString$parse2 = _queryString2.default.parse(this.props.queryString),
+          page = _queryString$parse2.page,
+          price_min = _queryString$parse2.price_min,
+          price_max = _queryString$parse2.price_max;
+
+      page = Number(page) + 1;
+      this.props.fetchVehicles(price_min, price_max, page);
+      this.props.history.push({
+        pathname: '/results',
+        search: '?page=' + page + (price_min ? '&price_min=' + price_min : '') + (price_max ? '&price_max=' + price_max : '')
+      });
+    }
+  }, {
+    key: 'previousPage',
+    value: function previousPage() {
+      var _queryString$parse3 = _queryString2.default.parse(this.props.queryString),
+          page = _queryString$parse3.page,
+          price_min = _queryString$parse3.price_min,
+          price_max = _queryString$parse3.price_max;
+
+      page = Number(page) - 1;
+      this.props.fetchVehicles(price_min, price_max, page);
+      this.props.history.push({
+        pathname: '/results',
+        search: '?page=' + page + (price_min ? '&price_min=' + price_min : '') + (price_max ? '&price_max=' + price_max : '')
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       if (this.props.vehicles.length === 0) {
@@ -521,10 +552,8 @@ var ResultsIndex = function (_Component) {
         );
       }
 
-      var _queryString$parse2 = _queryString2.default.parse(this.props.queryString),
-          page = _queryString$parse2.page,
-          price_min = _queryString$parse2.price_min,
-          price_max = _queryString$parse2.price_max;
+      var _queryString$parse4 = _queryString2.default.parse(this.props.queryString),
+          page = _queryString$parse4.page;
 
       var vehicles = this.props.vehicles;
 
@@ -536,9 +565,28 @@ var ResultsIndex = function (_Component) {
           'div',
           { className: 'result-container' },
           _react2.default.createElement(
-            'h3',
-            null,
-            'Search Results'
+            'div',
+            { className: 'navigation' },
+            _react2.default.createElement(
+              'button',
+              {
+                disabled: page === '1' ? true : false,
+                className: 'btn waves-effect waves-light',
+                onClick: this.previousPage },
+              'Previous'
+            ),
+            _react2.default.createElement(
+              'h3',
+              null,
+              'Search Results'
+            ),
+            _react2.default.createElement(
+              'button',
+              {
+                className: 'btn waves-effect waves-light',
+                onClick: this.nextPage },
+              'Next'
+            )
           ),
           _react2.default.createElement(
             'ul',
@@ -558,7 +606,7 @@ var ResultsIndex = function (_Component) {
   return ResultsIndex;
 }(_react.Component);
 
-exports.default = ResultsIndex;
+exports.default = (0, _reactRouter.withRouter)(ResultsIndex);
 
 /***/ }),
 
@@ -586,10 +634,10 @@ var ResultsIndexItem = function ResultsIndexItem(props) {
   return _react2.default.createElement(
     "li",
     { className: "result-index-item collection-item avatar" },
-    _react2.default.createElement("img", { src: props.vehicle.primary_photo_url, alt: "", "class": "circle" }),
+    _react2.default.createElement("img", { src: props.vehicle.primary_photo_url, alt: "", className: "circle" }),
     _react2.default.createElement(
       "span",
-      { "class": "title" },
+      { className: "title" },
       props.vehicle.year,
       " ",
       props.vehicle.make,
