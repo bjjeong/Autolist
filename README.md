@@ -9,8 +9,7 @@ A decision that took considerable time was determining how to store the page num
 1. `bundle install`
 2. `rails s`
 3. `npm install`
-4. `npm start`
-5. Go to `localhost:3000` in the browser
+4. Go to `localhost:3000` in the browser
 
 
 ## Unfinished Features
