@@ -194,6 +194,10 @@ var _results_container = __webpack_require__(/*! ./results/results_container */ 
 
 var _results_container2 = _interopRequireDefault(_results_container);
 
+var _vehicle_show_container = __webpack_require__(/*! ./vehicle/vehicle_show_container */ "./frontend/components/vehicle/vehicle_show_container.js");
+
+var _vehicle_show_container2 = _interopRequireDefault(_vehicle_show_container);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App(_ref) {
@@ -208,6 +212,7 @@ var App = function App(_ref) {
         _reactRouterDom.Switch,
         null,
         _react2.default.createElement(_reactRouterDom.Route, { path: '/results', component: _results_container2.default }),
+        _react2.default.createElement(_reactRouterDom.Route, { path: '/vehicle', component: _vehicle_show_container2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _home_container2.default })
       )
     )
@@ -629,11 +634,17 @@ var _reactRouter = __webpack_require__(/*! react-router */ "./node_modules/react
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ResultsIndexItem = function ResultsIndexItem(props) {
+  var request = {
+    pathname: '/vehicle/' + props.vehicle.vin,
+    state: { vehicle: props.vehicle }
+  };
   return _react2.default.createElement(
     'a',
-    { onClick: function onClick() {
-        return props.history.push('/vehicle/' + props.vehicle.vin);
-      }, className: 'result-index-item collection-item avatar' },
+    {
+      onClick: function onClick() {
+        return props.history.push(request);
+      },
+      className: 'result-index-item collection-item avatar' },
     _react2.default.createElement('img', { src: props.vehicle.primary_photo_url, alt: '', className: 'circle' }),
     _react2.default.createElement(
       'span',
@@ -700,6 +711,101 @@ var Root = function Root(_ref) {
 };
 
 exports.default = Root;
+
+/***/ }),
+
+/***/ "./frontend/components/vehicle/vehicle_show.jsx":
+/*!******************************************************!*\
+  !*** ./frontend/components/vehicle/vehicle_show.jsx ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var VehicleShow = function VehicleShow(props) {
+  var vehicle = props.location.state.vehicle;
+
+  return _react2.default.createElement(
+    "div",
+    { className: "vehicle-show" },
+    _react2.default.createElement(
+      "div",
+      { className: "col s12 m6" },
+      _react2.default.createElement(
+        "div",
+        { className: "card" },
+        _react2.default.createElement(
+          "div",
+          { className: "card-image" },
+          _react2.default.createElement("img", { src: vehicle.primary_photo_url })
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "card-content" },
+          _react2.default.createElement(
+            "span",
+            { className: "card-title" },
+            vehicle.year,
+            " ",
+            vehicle.make,
+            " ",
+            vehicle.model
+          )
+        )
+      )
+    )
+  );
+};
+
+exports.default = VehicleShow;
+
+/***/ }),
+
+/***/ "./frontend/components/vehicle/vehicle_show_container.js":
+/*!***************************************************************!*\
+  !*** ./frontend/components/vehicle/vehicle_show_container.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _vehicle_show = __webpack_require__(/*! ./vehicle_show */ "./frontend/components/vehicle/vehicle_show.jsx");
+
+var _vehicle_show2 = _interopRequireDefault(_vehicle_show);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    vehicle: ownProps.location.state
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {};
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_vehicle_show2.default);
 
 /***/ }),
 
