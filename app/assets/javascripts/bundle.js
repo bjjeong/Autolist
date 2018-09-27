@@ -200,7 +200,6 @@ var _results_container2 = _interopRequireDefault(_results_container);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import { AuthRoute, ProtectedRoute } from '../util/route_util';
 var App = function App(_ref) {
   var children = _ref.children;
   return _react2.default.createElement(
@@ -409,10 +408,52 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 /***/ }),
 
-/***/ "./frontend/components/results/results.jsx":
-/*!*************************************************!*\
-  !*** ./frontend/components/results/results.jsx ***!
-  \*************************************************/
+/***/ "./frontend/components/results/results_container.js":
+/*!**********************************************************!*\
+  !*** ./frontend/components/results/results_container.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _results_index = __webpack_require__(/*! ./results_index */ "./frontend/components/results/results_index.jsx");
+
+var _results_index2 = _interopRequireDefault(_results_index);
+
+var _vehicle_actions = __webpack_require__(/*! ../../actions/vehicle_actions */ "./frontend/actions/vehicle_actions.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    queryString: ownProps.location.search,
+    vehicles: Object.values(state.entities.vehicles)
+  };
+};
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    fetchVehicles: function fetchVehicles(min, max, page) {
+      return dispatch((0, _vehicle_actions.fetchVehicles)(min, max, page));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_results_index2.default);
+
+/***/ }),
+
+/***/ "./frontend/components/results/results_index.jsx":
+/*!*******************************************************!*\
+  !*** ./frontend/components/results/results_index.jsx ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -433,6 +474,10 @@ var _queryString = __webpack_require__(/*! query-string */ "./node_modules/query
 
 var _queryString2 = _interopRequireDefault(_queryString);
 
+var _results_index_item = __webpack_require__(/*! ./results_index_item.jsx */ "./frontend/components/results/results_index_item.jsx");
+
+var _results_index_item2 = _interopRequireDefault(_results_index_item);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -441,13 +486,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Results = function (_Component) {
-  _inherits(Results, _Component);
+var ResultsIndex = function (_Component) {
+  _inherits(ResultsIndex, _Component);
 
-  function Results(props) {
-    _classCallCheck(this, Results);
+  function ResultsIndex(props) {
+    _classCallCheck(this, ResultsIndex);
 
-    var _this = _possibleConstructorReturn(this, (Results.__proto__ || Object.getPrototypeOf(Results)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (ResultsIndex.__proto__ || Object.getPrototypeOf(ResultsIndex)).call(this, props));
 
     _this.state = {
       page: 1
@@ -455,7 +500,7 @@ var Results = function (_Component) {
     return _this;
   }
 
-  _createClass(Results, [{
+  _createClass(ResultsIndex, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
       var _queryString$parse = _queryString2.default.parse(this.props.queryString),
@@ -481,25 +526,46 @@ var Results = function (_Component) {
           price_min = _queryString$parse2.price_min,
           price_max = _queryString$parse2.price_max;
 
+      var vehicles = this.props.vehicles;
+
+
       return _react2.default.createElement(
         'div',
-        null,
-        this.props.vehicles.length
+        { className: 'results' },
+        _react2.default.createElement(
+          'div',
+          { className: 'result-container' },
+          _react2.default.createElement(
+            'h3',
+            null,
+            'Search Results'
+          ),
+          _react2.default.createElement(
+            'ul',
+            { className: 'collection' },
+            vehicles.map(function (vehicle) {
+              return _react2.default.createElement(_results_index_item2.default, {
+                key: vehicle.vin,
+                vehicle: vehicle
+              });
+            })
+          )
+        )
       );
     }
   }]);
 
-  return Results;
+  return ResultsIndex;
 }(_react.Component);
 
-exports.default = Results;
+exports.default = ResultsIndex;
 
 /***/ }),
 
-/***/ "./frontend/components/results/results_container.js":
-/*!**********************************************************!*\
-  !*** ./frontend/components/results/results_container.js ***!
-  \**********************************************************/
+/***/ "./frontend/components/results/results_index_item.jsx":
+/*!************************************************************!*\
+  !*** ./frontend/components/results/results_index_item.jsx ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -510,31 +576,29 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
-var _results = __webpack_require__(/*! ./results */ "./frontend/components/results/results.jsx");
-
-var _results2 = _interopRequireDefault(_results);
-
-var _vehicle_actions = __webpack_require__(/*! ../../actions/vehicle_actions */ "./frontend/actions/vehicle_actions.js");
+var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var mapStateToProps = function mapStateToProps(state, ownProps) {
-  return {
-    queryString: ownProps.location.search,
-    vehicles: Object.values(state.entities.vehicles)
-  };
-};
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    fetchVehicles: function fetchVehicles(min, max, page) {
-      return dispatch((0, _vehicle_actions.fetchVehicles)(min, max, page));
-    }
-  };
+var ResultsIndexItem = function ResultsIndexItem(props) {
+  return _react2.default.createElement(
+    "li",
+    { className: "result-index-item collection-item" },
+    props.vehicle.price,
+    "----",
+    props.vehicle.vin,
+    "----",
+    props.vehicle.make,
+    "-",
+    props.vehicle.model,
+    "-",
+    props.vehicle.year
+  );
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_results2.default);
+exports.default = ResultsIndexItem;
 
 /***/ }),
 

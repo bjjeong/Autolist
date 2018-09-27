@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Results from './results';
+import Results from './results_index';
 import { fetchVehicles } from '../../actions/vehicle_actions';
 
 const mapStateToProps = (state, ownProps) => ({
