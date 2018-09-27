@@ -585,16 +585,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ResultsIndexItem = function ResultsIndexItem(props) {
   return _react2.default.createElement(
     "li",
-    { className: "result-index-item collection-item" },
-    props.vehicle.price,
-    "----",
-    props.vehicle.vin,
-    "----",
-    props.vehicle.make,
-    "-",
-    props.vehicle.model,
-    "-",
-    props.vehicle.year
+    { className: "result-index-item collection-item avatar" },
+    _react2.default.createElement("img", { src: props.vehicle.primary_photo_url, alt: "", "class": "circle" }),
+    _react2.default.createElement(
+      "span",
+      { "class": "title" },
+      props.vehicle.year,
+      " ",
+      props.vehicle.make,
+      " ",
+      props.vehicle.model
+    ),
+    _react2.default.createElement(
+      "p",
+      null,
+      props.vehicle.price
+    )
   );
 };
 
