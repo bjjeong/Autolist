@@ -7,6 +7,7 @@ export const receiveVehicles = vehicles => ({
   vehicles: vehicles.records
 });
 
-export const fetchVehicles = () => dispatch => (
-  VehicleApiUtil.fetchVehicles().then(vehicles => dispatch(receiveVehicles(vehicles)))
+export const fetchVehicles = (min, max, page) => dispatch => (
+  VehicleApiUtil.fetchVehicles(min, max, page)
+    .then(vehicles => dispatch(receiveVehicles(vehicles)))
 );

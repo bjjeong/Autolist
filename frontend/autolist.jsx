@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.dispatch = store.dispatch;
   window.getState = store.dispatch;
 
-  window.fetchVehicles = store.dispatch(fetchVehicles());
+  // window.fetchVehicles = store.dispatch(fetchVehicles(5, 80000, 1));
 
   ReactDOM.render(<Root store={store} />, root);
 });

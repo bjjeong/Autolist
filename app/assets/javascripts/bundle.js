@@ -116,9 +116,9 @@ var receiveVehicles = exports.receiveVehicles = function receiveVehicles(vehicle
   };
 };
 
-var fetchVehicles = exports.fetchVehicles = function fetchVehicles() {
+var fetchVehicles = exports.fetchVehicles = function fetchVehicles(min, max, page) {
   return function (dispatch) {
-    return VehicleApiUtil.fetchVehicles().then(function (vehicles) {
+    return VehicleApiUtil.fetchVehicles(min, max, page).then(function (vehicles) {
       return dispatch(receiveVehicles(vehicles));
     });
   };
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
   window.dispatch = store.dispatch;
   window.getState = store.dispatch;
 
-  window.fetchVehicles = store.dispatch((0, _vehicle_actions.fetchVehicles)());
+  // window.fetchVehicles = store.dispatch(fetchVehicles(5, 80000, 1));
 
   _reactDom2.default.render(_react2.default.createElement(_root2.default, { store: store }), root);
 });
@@ -190,9 +190,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
-var _home = __webpack_require__(/*! ./home/home */ "./frontend/components/home/home.jsx");
+var _home_container = __webpack_require__(/*! ./home/home_container */ "./frontend/components/home/home_container.js");
 
-var _home2 = _interopRequireDefault(_home);
+var _home_container2 = _interopRequireDefault(_home_container);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -207,7 +207,7 @@ var App = function App(_ref) {
       _react2.default.createElement(
         _reactRouterDom.Switch,
         null,
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _home2.default })
+        _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _home_container2.default })
       )
     )
   );
@@ -258,8 +258,8 @@ var Home = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
 
     _this.state = {
-      min_price: '',
-      max_price: ''
+      minPrice: 0,
+      maxPrice: 0
     };
     _this.handleSubmit = _this.handleSubmit.bind(_this);
     return _this;
@@ -269,7 +269,13 @@ var Home = function (_Component) {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
       e.preventDefault();
-      this.props.history.push('/results');
+
+      var minPrice = this.state.minPrice;
+      var maxPrice = this.state.maxPrice;
+      var page = 1;
+
+      this.props.fetchVehicles(minPrice, maxPrice, page);
+      // this.props.history.push('/results');
     }
   }, {
     key: 'update',
@@ -304,10 +310,16 @@ var Home = function (_Component) {
               _react2.default.createElement(
                 'div',
                 { className: 'input-field col s12' },
-                _react2.default.createElement('input', { placeholder: '$0', id: 'min_price', type: 'number', 'class': 'validate' }),
+                _react2.default.createElement('input', {
+                  placeholder: '$0',
+                  id: 'minPrice',
+                  type: 'number',
+                  className: 'validate',
+                  onChange: this.update("minPrice")
+                }),
                 _react2.default.createElement(
                   'label',
-                  { 'for': 'min_price' },
+                  { htmlFor: 'minPrice' },
                   'Please Enter Minimum Price'
                 )
               )
@@ -318,10 +330,16 @@ var Home = function (_Component) {
               _react2.default.createElement(
                 'div',
                 { className: 'input-field col s12' },
-                _react2.default.createElement('input', { placeholder: '$0', id: 'max_price', type: 'number', 'class': 'validate' }),
+                _react2.default.createElement('input', {
+                  placeholder: '$0',
+                  id: 'maxPrice',
+                  type: 'number',
+                  className: 'validate',
+                  onChange: this.update("maxPrice")
+                }),
                 _react2.default.createElement(
                   'label',
-                  { 'for': 'max_price' },
+                  { htmlFor: 'maxPrice' },
                   'Please Enter Maximum Price'
                 )
               )
@@ -341,6 +359,46 @@ var Home = function (_Component) {
 }(_react.Component);
 
 exports.default = (0, _reactRouter.withRouter)(Home);
+
+/***/ }),
+
+/***/ "./frontend/components/home/home_container.js":
+/*!****************************************************!*\
+  !*** ./frontend/components/home/home_container.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _home = __webpack_require__(/*! ./home */ "./frontend/components/home/home.jsx");
+
+var _home2 = _interopRequireDefault(_home);
+
+var _vehicle_actions = __webpack_require__(/*! ../../actions/vehicle_actions */ "./frontend/actions/vehicle_actions.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {};
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    fetchVehicles: function fetchVehicles(min, max, page) {
+      return dispatch((0, _vehicle_actions.fetchVehicles)(min, max, page));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_home2.default);
 
 /***/ }),
 
@@ -538,13 +596,13 @@ exports.default = configureStore;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var fetchVehicles = exports.fetchVehicles = function fetchVehicles() {
+var fetchVehicles = exports.fetchVehicles = function fetchVehicles(min, max, page) {
   return $.ajax({
     method: 'GET',
     beforeSend: function beforeSend(request) {
       request.setRequestHeader('x-api-key', 'cPvW4cvlX73o7WeloOBzeWfvrb4Kl12uw0olDp90');
     },
-    url: 'https://qa878qmgjk.execute-api.us-east-1.amazonaws.com/dev?page=1'
+    url: 'https://qa878qmgjk.execute-api.us-east-1.amazonaws.com/dev?page=' + page + (min ? '&price_min=' + min : '') + (max ? '&price_max=' + max : '')
   });
 };
 

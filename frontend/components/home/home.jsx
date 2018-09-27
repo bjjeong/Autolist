@@ -5,15 +5,21 @@ class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      min_price: '',
-      max_price: ''
+      minPrice: 0,
+      maxPrice: 0
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.history.push('/results');
+
+    let minPrice = this.state.minPrice;
+    let maxPrice = this.state.maxPrice;
+    let page = 1;
+
+    this.props.fetchVehicles(minPrice, maxPrice, page);
+    // this.props.history.push('/results');
   }
 
   update(field) {
@@ -31,14 +37,26 @@ class Home extends Component {
             <h1 className="title"> Autolist Vehicle Search </h1>
             <div className="row">
               <div className="input-field col s12">
-                <input placeholder="$0" id="min_price" type="number" class="validate" />
-                <label for="min_price">Please Enter Minimum Price</label>
+                <input
+                  placeholder="$0"
+                  id="minPrice"
+                  type="number"
+                  className="validate"
+                  onChange={this.update("minPrice")}
+                />
+                <label htmlFor="minPrice">Please Enter Minimum Price</label>
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
-                <input placeholder="$0" id="max_price" type="number" class="validate" />
-                <label for="max_price">Please Enter Maximum Price</label>
+                <input
+                  placeholder="$0"
+                  id="maxPrice"
+                  type="number"
+                  className="validate"
+                  onChange={this.update("maxPrice")}
+                />
+                <label htmlFor="maxPrice">Please Enter Maximum Price</label>
               </div>
             </div>
             <button type="submit" className="btn waves-effect waves-light">Search Vehicles</button>

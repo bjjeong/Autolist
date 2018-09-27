@@ -7,7 +7,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchVehicles: () => dispatch(fetchVehicles())
+  fetchVehicles: (min, max, page) => dispatch(fetchVehicles(min, max, page))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
