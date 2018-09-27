@@ -241,6 +241,8 @@ var _reactRouter = __webpack_require__(/*! react-router */ "./node_modules/react
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -270,52 +272,65 @@ var Home = function (_Component) {
       this.props.history.push('/results');
     }
   }, {
+    key: 'update',
+    value: function update(field) {
+      var _this2 = this;
+
+      return function (e) {
+        _this2.setState(_defineProperty({}, field, e.target.value));
+      };
+    }
+  }, {
     key: 'render',
     value: function render() {
 
       return _react2.default.createElement(
         'div',
-        { className: 'home-page row' },
+        { className: 'home-page' },
         _react2.default.createElement(
-          'h1',
-          { className: 'col s12' },
-          ' Home Page '
-        ),
-        _react2.default.createElement(
-          'form',
-          { onSubmit: this.handleSubmit, className: 'col s12' },
+          'div',
+          { className: 'form-container row z-depth-2' },
           _react2.default.createElement(
-            'div',
-            { className: 'row' },
+            'form',
+            { onSubmit: this.handleSubmit, className: 'col s12' },
+            _react2.default.createElement(
+              'h1',
+              { className: 'title' },
+              ' Autolist Vehicle Search '
+            ),
             _react2.default.createElement(
               'div',
-              { className: 'input-field col s6' },
-              _react2.default.createElement('input', { placeholder: '$0', id: 'min_price', type: 'number', 'class': 'validate' }),
+              { className: 'row' },
               _react2.default.createElement(
-                'label',
-                { 'for': 'min_price' },
-                'Please Enter Minimum Price'
+                'div',
+                { className: 'input-field col s12' },
+                _react2.default.createElement('input', { placeholder: '$0', id: 'min_price', type: 'number', 'class': 'validate' }),
+                _react2.default.createElement(
+                  'label',
+                  { 'for': 'min_price' },
+                  'Please Enter Minimum Price'
+                )
               )
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'row' },
+            ),
             _react2.default.createElement(
               'div',
-              { className: 'input-field col s6' },
-              _react2.default.createElement('input', { placeholder: '$0', id: 'max_price', type: 'number', 'class': 'validate' }),
+              { className: 'row' },
               _react2.default.createElement(
-                'label',
-                { 'for': 'max_price' },
-                'Please Enter Maximum Price'
+                'div',
+                { className: 'input-field col s12' },
+                _react2.default.createElement('input', { placeholder: '$0', id: 'max_price', type: 'number', 'class': 'validate' }),
+                _react2.default.createElement(
+                  'label',
+                  { 'for': 'max_price' },
+                  'Please Enter Maximum Price'
+                )
               )
+            ),
+            _react2.default.createElement(
+              'button',
+              { type: 'submit', className: 'btn waves-effect waves-light' },
+              'Search Vehicles'
             )
-          ),
-          _react2.default.createElement(
-            'button',
-            { type: 'submit', className: 'btn waves-effect waves-light' },
-            'Search Vehicles'
           )
         )
       );
