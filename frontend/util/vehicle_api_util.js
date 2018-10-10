@@ -7,3 +7,9 @@ export const fetchVehicles = (min, max, page) => (
     url: `https://qa878qmgjk.execute-api.us-east-1.amazonaws.com/dev?page=${page}${min ? `&price_min=${min}` : ''}${max ? `&price_max=${max}` : ''}`,
   })
 );
+
+export const fetchViews = () => (
+  $.ajax({
+    method: 'GET'
+  })
+)
