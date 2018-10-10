@@ -10,4 +10,6 @@
 #
 
 class Vehicle < ApplicationRecord
+  validates :vin, :views, presence: true
+  validates :vin, uniqueness: true
 end
