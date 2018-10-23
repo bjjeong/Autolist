@@ -268,6 +268,7 @@ var Home = function (_Component) {
       maxPrice: 0
     };
     _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.update = _this.update.bind(_this);
     return _this;
   }
 
@@ -963,6 +964,12 @@ var fetchVehicles = exports.fetchVehicles = function fetchVehicles(min, max, pag
       request.setRequestHeader('x-api-key', 'cPvW4cvlX73o7WeloOBzeWfvrb4Kl12uw0olDp90');
     },
     url: 'https://qa878qmgjk.execute-api.us-east-1.amazonaws.com/dev?page=' + page + (min ? '&price_min=' + min : '') + (max ? '&price_max=' + max : '')
+  });
+};
+
+var fetchViews = exports.fetchViews = function fetchViews() {
+  return $.ajax({
+    method: 'GET'
   });
 };
 
